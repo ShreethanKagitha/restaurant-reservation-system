@@ -8,6 +8,7 @@ import Input from '../components/common/Input';
 import Drawer from '../components/common/Drawer';
 import ConfirmModal from '../components/common/ConfirmModal';
 import Badge from '../components/common/Badge';
+import SkeletonLoader from '../components/common/SkeletonLoader';
 import { Plus, Settings2, ShieldCheck, Hammer, HelpCircle } from 'lucide-react';
 
 const AdminTables = () => {

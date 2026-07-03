@@ -1,35 +1,63 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@theme {
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  
+  --color-burgundy: #7A1E2C;
+  --color-gold: #D4AF37;
+  --color-cream: #FFF8F0;
+  --color-charcoal: #121212;
+  --color-fresh-green: #3FA34D;
+  --color-soft-orange: #F59E0B;
+}
 
 @layer base {
-  :root {
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-  
   body {
     font-family: var(--font-sans);
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-200 antialiased;
+    @apply bg-[#FFF8F0] text-charcoal dark:bg-[#121212] dark:text-cream transition-colors duration-300 antialiased;
+  }
+
+  h1, h2, h3, .font-elegant {
+    font-family: var(--font-serif);
   }
 }
 
 /* Custom premium design system details */
 .glassmorphism {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 248, 240, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(122, 30, 44, 0.1);
 }
 
 .dark .glassmorphism {
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
+/* Premium gradient matching luxury palette */
 .premium-gradient {
-  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #7A1E2C 0%, #121212 100%);
 }
 
 .premium-gradient-hover {
-  background: linear-gradient(135deg, #4338ca 0%, #0891b2 100%);
+  background: linear-gradient(135deg, #601420 0%, #000000 100%);
+}
+
+/* Tasteful luxury hover lift micro-animations */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 30px -10px rgba(122, 30, 44, 0.15);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 12px 30px -10px rgba(212, 175, 55, 0.08);
 }

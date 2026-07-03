@@ -16,7 +16,11 @@ import {
   ArrowRight,
   User,
   Clock,
-  Users
+  Users,
+  Utensils,
+  Sparkles,
+  Layers,
+  History
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -62,23 +66,51 @@ const Dashboard = () => {
   const nextReservation = upcomingList
     .sort((a, b) => new Date(a.startTime) - new Date(b.startTime))[0];
 
+  // Last 3 reservations for beautiful timeline history
+  const recentTimelineList = [...reservations]
+    .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+    .slice(0, 3);
+
+  // Featured Food Gallery items
+  const featuredFoods = [
+    {
+      title: 'Dry-Aged Ribeye',
+      description: '45-day custom dry-aged, wood-fired with bone marrow butter.',
+      image: '/gourmet_dish.png',
+      price: '$64'
+    },
+    {
+      title: 'Truffle Soufflé',
+      description: 'Warm, airy black winter truffle infusion with Grand Marnier.',
+      image: '/restaurant_ambience.png',
+      price: '$24'
+    }
+  ];
+
   return (
-    <div className="space-y-8 text-left">
-      {/* Welcome Banner */}
-      <div className="rounded-2xl premium-gradient p-6 text-white shadow-sm md:p-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-        <div className="relative z-10 space-y-2">
-          <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
+    <div className="space-y-8 text-left max-w-7xl mx-auto">
+      {/* 1) Welcome Banner */}
+      <div className="rounded-3xl bg-gradient-to-r from-burgundy to-[#121212] p-8 text-white shadow-md relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+        
+        {/* Gold accent line */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-gold" />
+
+        <div className="relative z-10 space-y-3">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/20">
+            <Sparkles className="h-3 w-3 fill-gold" /> Gold Tier Member
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-elegant font-bold tracking-tight">
             Welcome back, {user?.fullName}!
           </h1>
-          <p className="text-indigo-100 max-w-lg text-sm">
-            Easily manage your tables, schedule a new reservation, or inspect your reservation logs.
+          <p className="text-slate-300 max-w-lg text-xs leading-relaxed font-light">
+            Secure priority seating, verify reservation schedules, or check your dining history.
           </p>
         </div>
       </div>
 
-      {/* Grid of stats */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 2) Grid of stats */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {loading ? (
           <SkeletonLoader variant="stat" count={4} />
         ) : (
@@ -87,19 +119,19 @@ const Dashboard = () => {
               name="Total Bookings"
               value={totalCount}
               icon={CalendarDays}
-              color="bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400"
+              color="bg-burgundy/5 text-burgundy dark:bg-gold/5 dark:text-gold"
             />
             <SummaryCard
               name="Upcoming"
               value={upcomingCount}
               icon={Calendar}
-              color="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400"
+              color="bg-fresh-green/5 text-fresh-green"
             />
             <SummaryCard
               name="Completed"
               value={completedCount}
               icon={CheckCircle}
-              color="bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+              color="bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400"
             />
             <SummaryCard
               name="Cancelled"
@@ -111,43 +143,45 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Content Split: Next Booking vs Quick Actions */}
+      {/* 3) Split Area: Upcoming Card vs Quick Actions */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Next Booking Section */}
-        <div className="lg:col-span-2 space-y-3">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-            Upcoming Reservation
+        <div className="lg:col-span-2 space-y-4">
+          <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+            <Utensils size={18} />
+            Upcoming Seating
           </h3>
           
           {loading ? (
             <div className="h-48 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 animate-pulse"></div>
           ) : nextReservation ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+            <div className="rounded-2xl border border-gold/15 bg-white p-6 shadow-sm dark:border-gold/5 dark:bg-slate-900 space-y-4 relative overflow-hidden hover-lift">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-gold" />
+              
               <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
                 <div className="space-y-0.5">
-                  <p className="text-xs text-slate-400 font-mono">
+                  <p className="text-[10px] text-slate-400 font-mono">
                     ID: {nextReservation._id.substring(nextReservation._id.length - 8)}
                   </p>
-                  <h4 className="font-bold text-slate-800 dark:text-white">
+                  <h4 className="font-bold text-slate-900 dark:text-white">
                     Table {nextReservation.table?.tableNumber || 'Assigned'}
                   </h4>
                 </div>
                 <Badge variant="success">Confirmed</Badge>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-1 text-sm text-slate-600 dark:text-slate-400">
-                <div className="flex items-center gap-2.5">
-                  <Calendar className="h-4 w-4 text-indigo-500" />
+              <div className="grid grid-cols-3 gap-3 py-1 text-xs text-slate-600 dark:text-slate-400">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-burgundy dark:text-gold" />
                   <span>
                     {new Date(nextReservation.reservationDate).toLocaleDateString(undefined, {
                       month: 'short',
-                      day: 'numeric',
-                      year: 'numeric'
+                      day: 'numeric'
                     })}
                   </span>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <Clock className="h-4 w-4 text-indigo-500" />
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-burgundy dark:text-gold" />
                   <span>
                     {new Date(nextReservation.startTime).toLocaleTimeString(undefined, {
                       hour: 'numeric',
@@ -155,22 +189,22 @@ const Dashboard = () => {
                     })}
                   </span>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <Users className="h-4 w-4 text-indigo-500" />
-                  <span>{nextReservation.guestCount} Guests</span>
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-burgundy dark:text-gold" />
+                  <span>{nextReservation.guestCount} Pax</span>
                 </div>
               </div>
 
               {nextReservation.notes && (
                 <div className="rounded-lg bg-slate-50 dark:bg-slate-800/40 p-3 text-xs text-slate-500 italic">
-                  Notes: "{nextReservation.notes}"
+                  Host instructions: "{nextReservation.notes}"
                 </div>
               )}
 
               <div className="pt-2 flex justify-end">
                 <Link to={`/reservations/${nextReservation._id}`}>
                   <Button variant="outline" size="sm" icon={ArrowRight}>
-                    View details
+                    Details
                   </Button>
                 </Link>
               </div>
@@ -178,28 +212,29 @@ const Dashboard = () => {
           ) : (
             <EmptyState
               title="No upcoming reservations"
-              description="You have no reservations scheduled. Ready to secure a table for fine dining?"
-              actionLabel="Book table now"
+              description="Ready to secure priority seating for an upcoming culinary event?"
+              actionLabel="Book a Table"
               onActionClick={() => navigate('/reservations/new')}
             />
           )}
         </div>
 
         {/* Quick Actions Panel */}
-        <div className="space-y-3">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+        <div className="space-y-4">
+          <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+            <Layers size={18} />
             Quick Actions
           </h3>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+          <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-3.5">
             <Link to="/reservations/new" className="block">
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-4 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-colors duration-150 cursor-pointer">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-3.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-all cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-indigo-50 p-2 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">
-                    <Plus className="h-5 w-5" />
+                  <div className="rounded-lg bg-burgundy/10 p-2 text-burgundy dark:bg-gold/15 dark:text-gold">
+                    <Plus className="h-4.5 w-4.5" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">New Booking</p>
-                    <p className="text-xs text-slate-500">Auto-allocate optimal table</p>
+                    <p className="text-xs font-bold text-slate-950 dark:text-white">New Booking</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Secure optimal seating</p>
                   </div>
                 </div>
                 <ArrowRight className="h-4 w-4 text-slate-400" />
@@ -207,14 +242,14 @@ const Dashboard = () => {
             </Link>
 
             <Link to="/reservations" className="block">
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-4 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-colors duration-150 cursor-pointer">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-3.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-all cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                    <CalendarDays className="h-5 w-5" />
+                  <div className="rounded-lg bg-burgundy/10 p-2 text-burgundy dark:bg-gold/15 dark:text-gold">
+                    <CalendarDays className="h-4.5 w-4.5" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">View Bookings</p>
-                    <p className="text-xs text-slate-500">Search and filter logs</p>
+                    <p className="text-xs font-bold text-slate-950 dark:text-white">View Bookings</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Inspect your history log</p>
                   </div>
                 </div>
                 <ArrowRight className="h-4 w-4 text-slate-400" />
@@ -222,19 +257,113 @@ const Dashboard = () => {
             </Link>
 
             <Link to="/profile" className="block">
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-4 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-colors duration-150 cursor-pointer">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 p-3.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-all cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-blue-50 p-2 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
-                    <User className="h-5 w-5" />
+                  <div className="rounded-lg bg-burgundy/10 p-2 text-burgundy dark:bg-gold/15 dark:text-gold">
+                    <User className="h-4.5 w-4.5" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">My Profile</p>
-                    <p className="text-xs text-slate-500">Inspect credentials and stats</p>
+                    <p className="text-xs font-bold text-slate-950 dark:text-white">My Profile</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Profile & account settings</p>
                   </div>
                 </div>
                 <ArrowRight className="h-4 w-4 text-slate-400" />
               </div>
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 4) Timeline Log History vs Featured Food */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Timeline Log History */}
+        <div className="lg:col-span-2 space-y-4">
+          <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+            <History size={18} />
+            Reservation Timeline
+          </h3>
+
+          {loading ? (
+            <div className="h-32 bg-white dark:bg-slate-900 rounded-2xl animate-pulse"></div>
+          ) : recentTimelineList.length > 0 ? (
+            <div className="rounded-2xl border border-burgundy/10 bg-white p-6 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-5">
+              <div className="relative pl-4 space-y-5 border-l border-burgundy/15 dark:border-gold/15 py-1">
+                {recentTimelineList.map((res, idx) => {
+                  const dateStr = new Date(res.reservationDate).toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  });
+                  const isCompleted = res.reservationStatus === 'COMPLETED';
+                  const isCancelled = res.reservationStatus === 'CANCELLED';
+
+                  return (
+                    <div key={res._id} className="relative space-y-1">
+                      {/* Circle dot marker */}
+                      <span className={`absolute -left-[21px] top-1.5 h-2.5 w-2.5 rounded-full border border-white dark:border-slate-900
+                        ${isCompleted ? 'bg-indigo-500' : isCancelled ? 'bg-red-500' : 'bg-emerald-500'}`}
+                      />
+                      
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-bold text-slate-900 dark:text-white">
+                          Table {res.table?.tableNumber || 'Assigned'} booking
+                        </p>
+                        <span className="text-[10px] text-slate-400 font-mono">{dateStr}</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <p>{res.guestCount} guests • {new Date(res.startTime).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</p>
+                        <span className={`font-semibold ${isCompleted ? 'text-indigo-500' : isCancelled ? 'text-red-500' : 'text-emerald-500'}`}>
+                          {res.reservationStatus}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed p-8 text-center text-xs text-slate-400">
+              No historical reservations logged.
+            </div>
+          )}
+        </div>
+
+        {/* Featured Food Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+            <Sparkles size={18} />
+            Chef's Selections
+          </h3>
+          
+          <div className="space-y-4">
+            {featuredFoods.map((food, idx) => (
+              <div
+                key={idx}
+                className="group rounded-2xl overflow-hidden border border-burgundy/5 bg-white dark:border-gold/5 dark:bg-slate-900 shadow-sm flex items-center h-24 hover-lift"
+              >
+                <div
+                  className="w-24 h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                  style={{ backgroundImage: `url('${food.image}')` }}
+                />
+                <div className="flex-1 p-3.5 text-left flex flex-col justify-between h-full">
+                  <div className="space-y-0.5">
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-burgundy dark:group-hover:text-gold transition-colors">
+                      {food.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-400 leading-normal line-clamp-2">
+                      {food.description}
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] font-bold pt-1 border-t border-slate-50 dark:border-slate-800">
+                    <span className="text-burgundy dark:text-gold">{food.price}</span>
+                    <Link to="/reservations/new" className="text-slate-400 group-hover:text-burgundy dark:group-hover:text-gold flex items-center gap-0.5">
+                      Book Seating →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

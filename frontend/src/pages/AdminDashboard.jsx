@@ -178,8 +178,8 @@ const AdminDashboard = () => {
 
       {/* Critical Banners: Attention Required */}
       {pendingAttentionList.length > 0 && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5 dark:border-amber-900/50 dark:bg-amber-950/20 space-y-3">
-          <h4 className="text-sm font-bold text-amber-800 dark:text-amber-400 flex items-center gap-2">
+        <div className="rounded-2xl border border-soft-orange/30 bg-soft-orange/5 p-5 dark:border-soft-orange/20 dark:bg-soft-orange/10 space-y-3 glassmorphism hover-lift">
+          <h4 className="text-sm font-bold text-soft-orange flex items-center gap-2">
             <AlertCircle className="h-4.5 w-4.5" />
             Attention Required ({pendingAttentionList.length} Booking requests pending review)
           </h4>
@@ -187,7 +187,7 @@ const AdminDashboard = () => {
             {pendingAttentionList.map((res) => (
               <div
                 key={res._id}
-                className="rounded-xl border border-amber-200 bg-white p-3.5 shadow-sm dark:border-amber-950 dark:bg-slate-900 space-y-3 text-xs"
+                className="rounded-xl border border-soft-orange/20 bg-white/60 p-3.5 shadow-sm dark:border-soft-orange/10 dark:bg-slate-900/60 space-y-3 text-xs glassmorphism"
               >
                 <div className="flex justify-between items-center">
                   <span className="font-mono text-slate-400">#{res._id.substring(res._id.length - 8)}</span>
@@ -220,7 +220,7 @@ const AdminDashboard = () => {
                     variant="primary"
                     size="xs"
                     onClick={() => handleQuickStatus(res._id, 'CONFIRMED')}
-                    className="bg-emerald-600 hover:bg-emerald-700"
+                    className="bg-fresh-green hover:bg-green-700 text-white border-none"
                   >
                     Confirm
                   </Button>
@@ -234,9 +234,9 @@ const AdminDashboard = () => {
       {/* Row 1: Restaurant Health & Heatmap Timeline */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Restaurant Health Summary */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-            <Heart className="h-5 w-5 text-red-500" />
+        <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift">
+          <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2 pb-3 border-b border-burgundy/10 dark:border-gold/10">
+            <Heart className="h-5 w-5 text-burgundy dark:text-gold" />
             Restaurant Health
           </h3>
           
@@ -280,10 +280,10 @@ const AdminDashboard = () => {
         </div>
 
         {/* Today's Schedule Reservation Density Timeline */}
-        <div className="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-          <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Clock className="h-5 w-5 text-indigo-500" />
+        <div className="lg:col-span-2 rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift">
+          <div className="flex justify-between items-center pb-3 border-b border-burgundy/10 dark:border-gold/10">
+            <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+              <Clock className="h-5 w-5 text-burgundy dark:text-gold" />
               Today's Schedule Density
             </h3>
             <span className="text-xs text-slate-400">{todayCount} Bookings Scheduled</span>
@@ -302,9 +302,9 @@ const AdminDashboard = () => {
                   // Heatmap colors based on density counts
                   let bgClass = 'bg-slate-100 dark:bg-slate-800/80';
                   if (count > 0) {
-                    if (ratio <= 0.4) bgClass = 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400';
-                    else if (ratio <= 0.8) bgClass = 'bg-emerald-300 dark:bg-emerald-800/60 text-emerald-900 dark:text-emerald-100';
-                    else bgClass = 'bg-emerald-500 text-white font-bold';
+                    if (ratio <= 0.4) bgClass = 'bg-fresh-green/20 dark:bg-fresh-green/10 text-fresh-green';
+                    else if (ratio <= 0.8) bgClass = 'bg-fresh-green/50 dark:bg-fresh-green/30 text-emerald-900 dark:text-emerald-100';
+                    else bgClass = 'bg-fresh-green text-white font-bold';
                   }
 
                   return (
@@ -325,8 +325,8 @@ const AdminDashboard = () => {
                 <span className="flex items-center gap-1"><TrendingUp size={14} /> Heatmap blocks represent reservation duration volumes per hour</span>
                 <div className="flex gap-2.5 items-center">
                   <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-slate-100 dark:bg-slate-800 border" /> vacant</span>
-                  <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-100 dark:bg-emerald-950/40" /> light</span>
-                  <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-500" /> peak</span>
+                  <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-fresh-green/20 dark:bg-fresh-green/10" /> light</span>
+                  <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-fresh-green" /> peak</span>
                 </div>
               </div>
             </div>
@@ -337,10 +337,10 @@ const AdminDashboard = () => {
       {/* Row 2: Live Table Grid vs Operations Feed */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Real-time occupied table grid */}
-        <div className="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-          <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Layers className="h-5 w-5 text-indigo-500" />
+        <div className="lg:col-span-2 rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4">
+          <div className="flex justify-between items-center pb-3 border-b border-burgundy/10 dark:border-gold/10">
+            <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
+              <Layers className="h-5 w-5 text-burgundy dark:text-gold" />
               Live Table Occupancy Grid
             </h3>
             <span className="text-xs text-slate-400">
@@ -363,25 +363,29 @@ const AdminDashboard = () => {
                 let borderClass = 'border-slate-200 dark:border-slate-800';
                 let indicatorColor = 'bg-slate-300 dark:bg-slate-700'; // vacant default
                 let statusLabel = 'Vacant';
+                let bgOverride = '';
                 
                 if (isOccupied) {
-                  borderClass = 'border-indigo-200 dark:border-indigo-900/50 shadow-sm shadow-indigo-100 dark:shadow-none';
-                  indicatorColor = 'bg-indigo-600 animate-pulse';
+                  borderClass = 'border-burgundy/30 dark:border-gold/30 shadow-sm shadow-burgundy/5 dark:shadow-gold/5';
+                  indicatorColor = 'bg-burgundy dark:bg-gold animate-pulse';
                   statusLabel = 'Occupied';
+                  bgOverride = 'bg-burgundy/5 dark:bg-gold/5';
                 } else if (isMaintenance) {
-                  borderClass = 'border-amber-200 dark:border-amber-900/40';
-                  indicatorColor = 'bg-amber-500';
+                  borderClass = 'border-soft-orange/40';
+                  indicatorColor = 'bg-soft-orange';
                   statusLabel = 'Maintenance';
+                  bgOverride = 'bg-soft-orange/5';
                 } else if (isDisabled) {
                   borderClass = 'border-red-200 dark:border-red-950/40';
                   indicatorColor = 'bg-red-500';
                   statusLabel = 'Disabled';
+                  bgOverride = 'bg-red-50 dark:bg-red-950/10';
                 }
 
                 return (
                   <div
                     key={t._id}
-                    className={`rounded-xl border p-4 flex flex-col justify-between min-h-[6.5rem] bg-white dark:bg-slate-900 text-left transition-all ${borderClass}`}
+                    className={`rounded-xl border p-4 flex flex-col justify-between min-h-[6.5rem] bg-white dark:bg-slate-900 text-left transition-all hover-lift ${borderClass} ${bgOverride}`}
                   >
                     <div className="flex justify-between items-start">
                       <div className="space-y-0.5">
@@ -394,7 +398,7 @@ const AdminDashboard = () => {
 
                     <div className="flex justify-between items-center text-[11px] text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800/80">
                       <span>{t.capacity} Pax size</span>
-                      <span className={`font-semibold ${isOccupied ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'}`}>
+                      <span className={`font-semibold ${isOccupied ? 'text-burgundy dark:text-gold' : 'text-slate-400'}`}>
                         {statusLabel}
                       </span>
                     </div>
@@ -408,9 +412,9 @@ const AdminDashboard = () => {
         </div>
 
         {/* Operations Feed chronological updates */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-            <Activity className="h-5 w-5 text-indigo-500" />
+        <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift">
+          <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2 pb-3 border-b border-burgundy/10 dark:border-gold/10">
+            <Activity className="h-5 w-5 text-burgundy dark:text-gold" />
             Operations Feed
           </h3>
 
@@ -423,7 +427,7 @@ const AdminDashboard = () => {
               {sortedEvents.map((evt, idx) => (
                 <div key={idx} className="relative space-y-1">
                   {/* Dot connector */}
-                  <span className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full bg-indigo-500 border border-white dark:border-slate-900" />
+                  <span className="absolute -left-[21px] top-1.5 h-2.5 w-2.5 rounded-full bg-burgundy dark:bg-gold border border-white dark:border-slate-900" />
                   
                   <p className="text-xs text-slate-700 dark:text-slate-300 leading-normal">
                     {evt.message}

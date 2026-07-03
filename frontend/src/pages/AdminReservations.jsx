@@ -200,7 +200,7 @@ const AdminReservations = () => {
     {
       header: 'Assigned Table',
       key: 'table',
-      render: (val) => <span className="font-bold text-indigo-600 dark:text-indigo-400">Table {val?.tableNumber || 'Assigned'}</span>
+      render: (val) => <span className="font-bold text-burgundy dark:text-gold">Table {val?.tableNumber || 'Assigned'}</span>
     },
     {
       header: 'Guest Count',
@@ -326,8 +326,8 @@ const AdminReservations = () => {
 
       {/* Bulk Action Panel if rows selected */}
       {selectedIds.length > 0 && (
-        <div className="flex items-center justify-between rounded-xl bg-indigo-50 p-4 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/30 animate-in slide-in-from-top-4 duration-200">
-          <div className="flex items-center gap-2 text-sm text-indigo-800 dark:text-indigo-400">
+        <div className="flex items-center justify-between rounded-xl bg-burgundy/5 p-4 dark:bg-gold/5 border border-burgundy/20 dark:border-gold/20 animate-in slide-in-from-top-4 duration-200">
+          <div className="flex items-center gap-2 text-sm text-burgundy dark:text-gold">
             <ShieldAlert size={18} />
             <span>
               <span className="font-bold">{selectedIds.length}</span> items selected for bulk actions
@@ -346,7 +346,7 @@ const AdminReservations = () => {
               variant="primary"
               size="xs"
               onClick={() => handleBulkUpdateStatus('CONFIRMED')}
-              className="bg-emerald-600 hover:bg-emerald-700"
+              className="bg-fresh-green hover:bg-green-700 text-white border-none"
             >
               Bulk Confirm
             </Button>
@@ -494,7 +494,7 @@ const AdminReservations = () => {
                 {['PENDING'].includes(activeReservation.reservationStatus) && (
                   <Button
                     variant="primary"
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                    className="flex-1 bg-fresh-green hover:bg-green-700 border-none text-white"
                     onClick={() => handleUpdateStatus(activeReservation._id, 'CONFIRMED')}
                     icon={Check}
                   >
@@ -504,7 +504,7 @@ const AdminReservations = () => {
                 {['CONFIRMED'].includes(activeReservation.reservationStatus) && (
                   <Button
                     variant="outline"
-                    className="flex-1 text-blue-600 border-blue-200 hover:bg-blue-50 dark:border-blue-900 dark:hover:bg-blue-950/20"
+                    className="flex-1 text-burgundy border-burgundy/30 hover:bg-burgundy/5 dark:text-gold dark:border-gold/30 dark:hover:bg-gold/5"
                     onClick={() => handleUpdateStatus(activeReservation._id, 'COMPLETED')}
                     icon={Check}
                   >

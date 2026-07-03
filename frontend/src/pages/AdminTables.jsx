@@ -186,28 +186,32 @@ const AdminTables = () => {
             let indicatorColor = 'bg-slate-300 dark:bg-slate-700'; // vacant default
             let badgeVariant = 'default';
             let statusText = 'Available';
+            let bgOverride = '';
             
             if (isOccupied) {
-              borderClass = 'border-indigo-200 dark:border-indigo-900/50 shadow-sm';
-              indicatorColor = 'bg-indigo-600 animate-pulse';
+              borderClass = 'border-burgundy/30 dark:border-gold/30 shadow-sm';
+              indicatorColor = 'bg-burgundy dark:bg-gold animate-pulse';
               badgeVariant = 'info';
               statusText = 'Occupied';
+              bgOverride = 'bg-burgundy/5 dark:bg-gold/5';
             } else if (isMaintenance) {
-              borderClass = 'border-amber-200 dark:border-amber-900/40';
-              indicatorColor = 'bg-amber-500';
+              borderClass = 'border-soft-orange/40';
+              indicatorColor = 'bg-soft-orange';
               badgeVariant = 'warning';
               statusText = 'Maintenance';
+              bgOverride = 'bg-soft-orange/5';
             } else if (isDisabled) {
               borderClass = 'border-red-200 dark:border-red-950/40';
               indicatorColor = 'bg-red-500';
               badgeVariant = 'danger';
               statusText = 'Disabled';
+              bgOverride = 'bg-red-50 dark:bg-red-950/10';
             }
 
             return (
               <div
                 key={t._id}
-                className={`rounded-2xl border p-5 flex flex-col justify-between min-h-[10rem] bg-white dark:bg-slate-900 text-left transition-all ${borderClass}`}
+                className={`rounded-2xl border p-5 flex flex-col justify-between min-h-[10rem] bg-white dark:bg-slate-900 text-left transition-all hover-lift glassmorphism ${borderClass} ${bgOverride}`}
               >
                 <div className="space-y-3.5">
                   <div className="flex justify-between items-start">
@@ -247,7 +251,7 @@ const AdminTables = () => {
                         size="xs"
                         onClick={() => handleStatusChange(t._id, 'AVAILABLE', t.tableNumber)}
                         icon={ShieldCheck}
-                        className="text-emerald-600 border-emerald-100 hover:bg-emerald-50 dark:border-emerald-950 dark:hover:bg-emerald-950/20"
+                        className="text-fresh-green border-fresh-green/50 hover:bg-fresh-green/10 dark:border-fresh-green/30 dark:hover:bg-fresh-green/20"
                       >
                         Activate
                       </Button>
@@ -272,7 +276,7 @@ const AdminTables = () => {
                           size="xs"
                           onClick={() => handleStatusChange(t._id, 'MAINTENANCE', t.tableNumber)}
                           icon={Hammer}
-                          className="text-amber-600 border-amber-100 hover:bg-amber-50 dark:border-amber-950 dark:hover:bg-amber-950/20"
+                          className="text-soft-orange border-soft-orange/50 hover:bg-soft-orange/10 dark:border-soft-orange/30 dark:hover:bg-soft-orange/20"
                         >
                           Maintain
                         </Button>
@@ -294,7 +298,7 @@ const AdminTables = () => {
           })}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed p-12 text-center text-slate-400">
+        <div className="rounded-2xl border border-dashed border-burgundy/20 p-12 text-center text-slate-400 glassmorphism">
           No table records configured in system. Add a new seating capacity to start.
         </div>
       )}

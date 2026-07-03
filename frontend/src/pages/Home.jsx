@@ -1,80 +1,170 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Calendar, Shield, Users, ArrowRight } from 'lucide-react';
+import { ChevronDown, Calendar, Star, Compass, Award, ShieldCheck } from 'lucide-react';
 import Button from '../components/common/Button';
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
+  const exploreSectionRef = useRef(null);
+
+  const scrollToExplore = () => {
+    exploreSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Sample curated dining categories for food visual representations
+  const curatedCategories = [
+    {
+      title: 'The Chef\'s Table',
+      description: 'Exclusive, intimate seating overlooking our open-hearth culinary kitchen.',
+      image: '/gourmet_dish.png',
+      tag: 'Fine Dining'
+    },
+    {
+      title: 'Sommelier Vaults',
+      description: 'Candlelit dining spaces paired with vintage library wines from our private cellar.',
+      image: '/restaurant_ambience.png',
+      tag: 'Wine Cellar'
+    }
+  ];
 
   return (
-    <div className="relative isolate overflow-hidden bg-slate-50 dark:bg-slate-950">
-      {/* Decorative background gradients */}
-      <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-        <div className="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-indigo-500 to-cyan-500 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
-      </div>
+    <div className="bg-[#FFF8F0] dark:bg-[#121212] transition-colors duration-300">
+      {/* 1) Premium Hero Section with Ambiance Background */}
+      <div
+        className="relative h-[90vh] flex items-center justify-center bg-cover bg-center overflow-hidden"
+        style={{ backgroundImage: `url('/restaurant_ambience.png')` }}
+      >
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/55 backdrop-blur-[1px]" />
 
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-24 sm:pb-32 lg:flex lg:px-8 lg:py-40">
-        <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8 text-left">
-          <h1 className="mt-10 text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-6xl">
-            Reserve Your Table <span className="text-indigo-600 dark:text-indigo-400">Effortlessly</span>
+        <div className="relative z-10 max-w-4xl px-6 text-center space-y-6 animate-in fade-in duration-700">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-gold bg-gold/10 border border-gold/20">
+            <Star className="h-3 w-3 fill-gold" /> Michelin-Guide Standard Selection
+          </span>
+          
+          <h1 className="text-4xl sm:text-6xl font-elegant font-bold text-white tracking-tight leading-tight">
+            Reserve Your Perfect <br />
+            <span className="text-gold">Dining Experience</span>
           </h1>
-          <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-400">
-            Enjoy premium seating. Reserve tables in real time, view occupancy layouts, and manage guest experiences with absolute confidence.
+
+          <p className="max-w-xl mx-auto text-base sm:text-lg text-slate-200 leading-relaxed font-sans">
+            Book your table effortlessly and enjoy unforgettable moments in handpicked restaurants.
           </p>
-          <div className="mt-10 flex items-center gap-x-6">
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             {isAuthenticated ? (
-              <Link to="/dashboard">
-                <Button size="lg" icon={ArrowRight}>
-                  Go to Management Console
+              <Link to="/dashboard" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto px-8 bg-burgundy hover:bg-[#601420]">
+                  Management Console
                 </Button>
               </Link>
             ) : (
               <>
-                <Link to="/register">
-                  <Button size="lg">Book a Table</Button>
+                <Link to="/register" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto px-8 bg-burgundy hover:bg-[#601420]">
+                    Reserve Now
+                  </Button>
                 </Link>
-                <Link to="/login" className="text-sm font-semibold leading-6 text-slate-900 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                  Sign In <span aria-hidden="true">→</span>
-                </Link>
+                <button
+                  onClick={scrollToExplore}
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 active:scale-95 transition-all text-sm cursor-pointer"
+                >
+                  Explore Highlights
+                </button>
               </>
             )}
           </div>
         </div>
 
-        {/* Feature Highlights on right */}
-        <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
-          <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:w-[32rem]">
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">
-                  <Calendar className="h-6 w-6" />
-                </div>
-                <h3 className="mt-4 text-base font-bold text-slate-900 dark:text-white">Real-Time Booking</h3>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  Browse table configurations, verify open time slots, and schedule reservations instantly.
-                </p>
-              </div>
+        {/* Scroll Indicator */}
+        <button
+          onClick={scrollToExplore}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors cursor-pointer animate-bounce flex flex-col items-center gap-1.5"
+        >
+          <span className="text-xs tracking-wider uppercase opacity-80">Scroll to Explore</span>
+          <ChevronDown className="h-5 w-5" />
+        </button>
+      </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-950/40 dark:text-cyan-400">
-                  <Shield className="h-6 w-6" />
-                </div>
-                <h3 className="mt-4 text-base font-bold text-slate-900 dark:text-white">Secure Sessions</h3>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  Role-based security protects personal details and reservation records from prying eyes.
-                </p>
-              </div>
+      {/* 2) Explore Curated Highlights Section */}
+      <div
+        ref={exploreSectionRef}
+        className="mx-auto max-w-7xl px-6 py-20 sm:py-24 text-left space-y-12"
+      >
+        <div className="max-w-2xl space-y-3">
+          <h2 className="text-3xl font-bold font-elegant text-burgundy dark:text-gold sm:text-4xl">
+            Curated Culinary Galleries
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400">
+            Handpicked sensory spaces designed to elevate every culinary milestone.
+          </p>
+        </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:col-span-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                  <Users className="h-6 w-6" />
+        {/* Cards grid */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {curatedCategories.map((cat, idx) => (
+            <div
+              key={idx}
+              className="group overflow-hidden rounded-2xl border border-burgundy/10 dark:border-gold/10 bg-white dark:bg-slate-900 shadow-sm hover-lift flex flex-col md:flex-row h-full"
+            >
+              <div
+                className="w-full md:w-1/2 h-48 md:h-auto bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                style={{ backgroundImage: `url('${cat.image}')` }}
+              />
+              <div className="w-full md:w-1/2 p-6 flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2 py-0.5 rounded">
+                    {cat.tag}
+                  </span>
+                  <h3 className="text-xl font-bold font-elegant text-charcoal dark:text-white">
+                    {cat.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                    {cat.description}
+                  </p>
                 </div>
-                <h3 className="mt-4 text-base font-bold text-slate-900 dark:text-white">SaaS Panel for Staff</h3>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  Administrators and staff can manage bookings, change table states, and track seating plans from a comprehensive dashboard.
-                </p>
+                <Link to="/register" className="text-xs font-bold text-burgundy dark:text-gold flex items-center gap-1 hover:underline">
+                  Secure Priority Seating →
+                </Link>
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3) Features highlights */}
+      <div className="border-t border-burgundy/10 dark:border-gold/10 bg-cream/30 dark:bg-slate-950/40">
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+                <Calendar className="h-5 w-5" />
+              </div>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">Seamless Booking</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Double-check availability dynamically and allocate seating targets instantly.
+              </p>
+            </div>
+
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+                <Compass className="h-5 w-5" />
+              </div>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">Operations Center</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Admins track live table occupancies, review timelines, and reassign tables easily.
+              </p>
+            </div>
+
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+                <Award className="h-5 w-5" />
+              </div>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">Host Priority Guards</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Strict verification layers validate capacity restraints and secure data integrity.
+              </p>
             </div>
           </div>
         </div>

@@ -60,12 +60,7 @@ const Reservations = () => {
             new Date(r.startTime) >= new Date()
         );
       } else if (statusFilter === 'COMPLETED') {
-        result = result.filter(
-          (r) =>
-            r.reservationStatus === 'COMPLETED' ||
-            (['PENDING', 'CONFIRMED'].includes(r.reservationStatus) &&
-              new Date(r.endTime) < new Date())
-        );
+        result = result.filter((r) => r.reservationStatus === 'COMPLETED');
       } else if (statusFilter === 'CANCELLED') {
         result = result.filter((r) => r.reservationStatus === 'CANCELLED');
       }

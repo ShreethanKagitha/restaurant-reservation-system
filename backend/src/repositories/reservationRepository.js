@@ -32,7 +32,7 @@ class ReservationRepository extends BaseRepository {
       .find({
         table: tableId,
         isDeleted: false,
-        reservationStatus: { $nin: ['CANCELLED', 'NO_SHOW'] },
+        reservationStatus: { $nin: ['CANCELLED', 'NO_SHOW', 'COMPLETED'] },
         startTime: { $lt: end },
         endTime: { $gt: start }
       })
@@ -121,7 +121,7 @@ class ReservationRepository extends BaseRepository {
     const overlappingBookings = await this.model
       .find({
         isDeleted: false,
-        reservationStatus: { $nin: ['CANCELLED', 'NO_SHOW'] },
+        reservationStatus: { $nin: ['CANCELLED', 'NO_SHOW', 'COMPLETED'] },
         startTime: { $lt: end },
         endTime: { $gt: start }
       })
@@ -175,6 +175,23 @@ class ReservationRepository extends BaseRepository {
       deletedAt: new Date(),
       updatedBy: userId
     });
+  }
+
+  /**
+   * Automatically transition past active reservations to COMPLETED.
+   */
+  async autoTransitionCompletedReservations() {
+    const { RESERVATION_STATUS } = require('../config/constants');
+    return await this.model.updateMany(
+      {
+        reservationStatus: { $in: [RESERVATION_STATUS.PENDING, RESERVATION_STATUS.CONFIRMED] },
+        endTime: { $lt: new Date() },
+        isDeleted: false
+      },
+      {
+        $set: { reservationStatus: RESERVATION_STATUS.COMPLETED }
+      }
+    );
   }
 }
 

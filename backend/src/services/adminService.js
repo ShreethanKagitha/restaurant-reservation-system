@@ -12,6 +12,7 @@ class AdminService {
    * Search, filter, sort, and paginate all active reservations.
    */
   async getAllReservations({ search, status, date, guestCount, page = 1, limit = 10, sortBy = 'startTime', sortOrder = 'asc' }) {
+    await reservationRepository.autoTransitionCompletedReservations();
     const query = { isDeleted: false };
 
     // 1) Handle search by Name, Email, or Reservation ID

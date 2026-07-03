@@ -250,6 +250,7 @@ class ReservationService {
    * @param {string} customerId
    */
   async getCustomerReservations(customerId) {
+    await reservationRepository.autoTransitionCompletedReservations();
     return await reservationRepository.findCustomerReservations(customerId);
   }
 

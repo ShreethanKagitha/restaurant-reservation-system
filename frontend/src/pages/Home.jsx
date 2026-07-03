@@ -134,10 +134,10 @@ const Home = () => {
       </div>
 
       {/* 3) Features highlights */}
-      <div className="border-t border-burgundy/10 dark:border-gold/10 bg-cream/30 dark:bg-slate-950/40">
+      <div className="border-t border-burgundy/10 dark:border-gold/10">
         <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
                 <Calendar className="h-5 w-5" />
               </div>
@@ -147,7 +147,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
                 <Compass className="h-5 w-5" />
               </div>
@@ -157,7 +157,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/5 dark:border-gold/5">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
                 <Award className="h-5 w-5" />
               </div>

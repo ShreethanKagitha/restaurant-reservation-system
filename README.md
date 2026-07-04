@@ -414,7 +414,7 @@ Every endpoint returns a unified JSON envelope:
 
 ---
 
-## 🚀 Local Deployment Instructions
+## 🚀 Local Development
 
 ### Prerequisites
 - Node.js (v18 or higher)
@@ -428,31 +428,56 @@ npm run install:all
 This executes `npm install` inside the root, `backend`, and `frontend` folders.
 
 ### Step 2: Configure Environment Variables
-1. Go to the `backend/` folder and copy `.env.example` to `.env`:
+1. Go to the root folder and copy `.env.example` to `.env`:
    ```bash
-   cp backend/.env.example backend/.env
+   cp .env.example .env
    ```
-2. Adjust environment variables (`MONGO_URI`, `JWT_SECRET`, `PORT`, etc.) in `backend/.env` if necessary.
+2. Adjust environment variables (`MONGO_URI`, `JWT_SECRET`, `PORT`, etc.) in `.env` if necessary.
 
-### Step 3: Seed Tables
-Seed the database with initial table capacities:
-```bash
-npm run seed
-```
-
-### Step 4: Run Development Environment
+### Step 3: Run Development Environment
 To start both the backend Node.js and frontend Vite React servers simultaneously, execute:
 ```bash
 npm run dev
 ```
 
-The application will be accessible at:
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:5000`
-
 ---
 
-## 🛡️ Production & Future Considerations
-- **Refresh Tokens**: Introduce HTTP-only cookie-based refresh tokens to secure user sessions.
-- **Transactional Consistency**: Wrap reservation creation in MongoDB transaction sessions to prevent race conditions during concurrent bookings.
-- **Deployment**: Deploy Backend to Node hosts (Render, AWS EBS) and Frontend to static hosts (Vercel, Netlify) with CORS parameters properly mapped.
+## 🌍 Production Deployment
+
+The application is structured to be deployed across three specialized platforms: **Vercel** (Frontend), **Render** (Backend), and **MongoDB Atlas** (Database).
+
+### 1. MongoDB Atlas Setup (Database)
+1. Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Go to **Network Access** and add IP address `0.0.0.0/0` to allow connections from Render.
+3. Go to **Database Access** and create a new user with a secure password.
+4. Go to **Databases** > **Connect** > **Drivers** and copy your connection string (replace `<password>` with the password you created).
+
+### 2. Render Deployment (Backend)
+1. Push this repository to GitHub.
+2. Log in to [Render](https://render.com/) and click **New** > **Web Service**.
+3. Connect your GitHub repository.
+4. Configure the Web Service:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+5. Expand the **Environment Variables** section and add:
+   - `NODE_ENV`: `production`
+   - `PORT`: `5000`
+   - `MONGO_URI`: *(Your MongoDB Atlas connection string)*
+   - `JWT_SECRET`: *(A strong secret string)*
+   - `JWT_EXPIRES_IN`: `7d`
+   - `CLIENT_URL`: *(Your future Vercel frontend URL, e.g., https://your-project.vercel.app)*
+6. Click **Create Web Service**. Wait for the deployment to finish and copy the backend URL (e.g., `https://your-backend.onrender.com`).
+
+### 3. Vercel Deployment (Frontend)
+1. Log in to [Vercel](https://vercel.com/) and click **Add New...** > **Project**.
+2. Connect your GitHub repository.
+3. In the **Configure Project** section:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `frontend`
+4. Expand **Environment Variables** and add:
+   - `VITE_API_URL`: *(Your Render backend URL + `/api/v1`, e.g., `https://your-backend.onrender.com/api/v1`)*
+5. Click **Deploy**. Vercel will automatically detect `frontend/vercel.json` for SPA routing and build the React app.
+
+> [!IMPORTANT]
+> Ensure that the `CLIENT_URL` on Render exactly matches your Vercel URL (without a trailing slash) to prevent CORS errors!

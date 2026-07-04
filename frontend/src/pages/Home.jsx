@@ -95,7 +95,7 @@ const Home = () => {
 
 
       {/* 3) Features highlights */}
-      <div className="border-t border-burgundy/10 dark:border-gold/10">
+      <div>
         <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift hover-glow animate-slide-up delay-100">

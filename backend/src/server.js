@@ -35,6 +35,31 @@ connectDB().then(async () => {
       await Table.insertMany(tablesData);
       logger.info(`Successfully auto-seeded ${tablesData.length} tables.`);
     }
+
+    // Auto-seed admin user in production if it doesn't exist
+    const User = require('./models/User');
+    const userRepository = require('./repositories/userRepository');
+    const { ROLES } = require('./config/constants');
+    
+    const adminEmail = 'admin@reservetable.com';
+    let adminExists = await User.findOne({ email: adminEmail }).select('+password');
+    
+    if (!adminExists) {
+      logger.info('Admin user not found. Auto-seeding default admin account...');
+      await userRepository.create({
+        fullName: 'System Administrator',
+        email: adminEmail,
+        password: 'Admin@123',
+        role: ROLES.ADMIN,
+        isActive: true
+      });
+      logger.info(`Successfully auto-seeded admin user: ${adminEmail}`);
+    } else if (adminExists.password && !adminExists.password.startsWith('$2a$') && !adminExists.password.startsWith('$2b$')) {
+      logger.warn('Admin password appears to be plaintext. Re-hashing via save hook...');
+      adminExists.password = 'Admin@123';
+      await adminExists.save();
+      logger.info('Successfully updated admin password hash.');
+    }
   } catch (seedErr) {
     logger.error('Failed to auto-seed tables:', seedErr);
   }

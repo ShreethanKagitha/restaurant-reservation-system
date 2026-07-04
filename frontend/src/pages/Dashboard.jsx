@@ -90,27 +90,32 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 text-left max-w-7xl mx-auto">
       {/* 1) Welcome Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-burgundy to-[#121212] p-8 text-white shadow-md relative overflow-hidden">
+      <div 
+        className="rounded-3xl bg-cover bg-center p-8 text-white shadow-xl relative overflow-hidden animate-scale-in"
+        style={{ backgroundImage: `url('/restaurant_ambience.png')` }}
+      >
+        {/* Deep gradient overlay to ensure text readability while letting the image subtly show through */}
+        <div className="absolute inset-0 bg-gradient-to-r from-burgundy/95 via-burgundy/80 to-[#121212]/90 backdrop-blur-[2px]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
         
         {/* Gold accent line */}
-        <div className="absolute top-0 inset-x-0 h-1 bg-gold" />
+        <div className="absolute top-0 inset-x-0 h-1 bg-gold shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
 
-        <div className="relative z-10 space-y-3">
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/20">
-            <Sparkles className="h-3 w-3 fill-gold" /> Gold Tier Member
+        <div className="relative z-10 space-y-3 animate-slide-up delay-100">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/20 backdrop-blur-md">
+            <Sparkles className="h-3 w-3 fill-gold animate-float" /> Gold Tier Member
           </span>
-          <h1 className="text-3xl sm:text-4xl font-elegant font-bold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-elegant font-bold tracking-tight drop-shadow-md">
             Welcome back, {user?.fullName}!
           </h1>
-          <p className="text-slate-300 max-w-lg text-xs leading-relaxed font-light">
+          <p className="text-slate-200 max-w-lg text-xs leading-relaxed font-light drop-shadow-sm">
             Secure priority seating, verify reservation schedules, or check your dining history.
           </p>
         </div>
       </div>
 
       {/* 2) Grid of stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 animate-slide-up delay-200">
         {loading ? (
           <SkeletonLoader variant="stat" count={4} />
         ) : (
@@ -144,7 +149,7 @@ const Dashboard = () => {
       </div>
 
       {/* 3) Split Area: Upcoming Card vs Quick Actions */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 animate-slide-up delay-300">
         {/* Next Booking Section */}
         <div className="lg:col-span-2 space-y-4">
           <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
@@ -155,10 +160,16 @@ const Dashboard = () => {
           {loading ? (
             <div className="h-48 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 animate-pulse"></div>
           ) : nextReservation ? (
-            <div className="rounded-2xl border border-gold/15 bg-white p-6 shadow-sm dark:border-gold/5 dark:bg-slate-900 space-y-4 relative overflow-hidden hover-lift">
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-gold" />
+            <div 
+              className="rounded-2xl border border-gold/15 bg-white p-6 shadow-sm dark:border-gold/5 dark:bg-slate-900 space-y-4 relative overflow-hidden hover-lift hover-glow bg-cover bg-center"
+              style={{ backgroundImage: `url('/gourmet_dish.png')` }}
+            >
+              {/* Overlay to ensure text readability */}
+              <div className="absolute inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm" />
               
-              <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-gold shadow-[0_0_10px_rgba(212,175,55,0.8)]" />
+              
+              <div className="relative z-10 flex justify-between items-center pb-3 border-b border-slate-200/50 dark:border-slate-800/50">
                 <div className="space-y-0.5">
                   <p className="text-[10px] text-slate-400 font-mono">
                     ID: {nextReservation._id.substring(nextReservation._id.length - 8)}
@@ -201,9 +212,9 @@ const Dashboard = () => {
                 </div>
               )}
 
-              <div className="pt-2 flex justify-end">
+              <div className="relative z-10 pt-2 flex justify-end">
                 <Link to={`/reservations/${nextReservation._id}`}>
-                  <Button variant="outline" size="sm" icon={ArrowRight}>
+                  <Button variant="outline" size="sm" icon={ArrowRight} className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-md">
                     Details
                   </Button>
                 </Link>
@@ -225,7 +236,7 @@ const Dashboard = () => {
             <Layers size={18} />
             Quick Actions
           </h3>
-          <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-3.5">
+          <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-3.5 hover-lift hover-glow">
             <Link to="/reservations/new" className="block">
               <div className="flex items-center justify-between rounded-xl border border-slate-100 p-3.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50 transition-all cursor-pointer">
                 <div className="flex items-center gap-3">
@@ -275,7 +286,7 @@ const Dashboard = () => {
       </div>
 
       {/* 4) Timeline Log History vs Featured Food */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 animate-slide-up delay-400">
         {/* Timeline Log History */}
         <div className="lg:col-span-2 space-y-4">
           <h3 className="text-lg font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
@@ -286,7 +297,7 @@ const Dashboard = () => {
           {loading ? (
             <div className="h-32 bg-white dark:bg-slate-900 rounded-2xl animate-pulse"></div>
           ) : recentTimelineList.length > 0 ? (
-            <div className="rounded-2xl border border-burgundy/10 bg-white p-6 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-5">
+            <div className="rounded-2xl border border-burgundy/10 bg-white p-6 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-5 hover-lift hover-glow">
               <div className="relative pl-4 space-y-5 border-l border-burgundy/15 dark:border-gold/15 py-1">
                 {recentTimelineList.map((res, idx) => {
                   const dateStr = new Date(res.reservationDate).toLocaleDateString(undefined, {

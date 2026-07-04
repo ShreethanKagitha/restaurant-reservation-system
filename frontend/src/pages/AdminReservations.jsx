@@ -508,7 +508,7 @@ const AdminReservations = () => {
                     onClick={() => handleUpdateStatus(activeReservation._id, 'COMPLETED')}
                     icon={Check}
                   >
-                    Mark Arrived
+                    Mark Completed
                   </Button>
                 )}
                 {['PENDING', 'CONFIRMED'].includes(activeReservation.reservationStatus) && (

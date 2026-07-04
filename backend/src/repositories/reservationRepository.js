@@ -181,17 +181,9 @@ class ReservationRepository extends BaseRepository {
    * Automatically transition past active reservations to COMPLETED.
    */
   async autoTransitionCompletedReservations() {
-    const { RESERVATION_STATUS } = require('../config/constants');
-    return await this.model.updateMany(
-      {
-        reservationStatus: { $in: [RESERVATION_STATUS.PENDING, RESERVATION_STATUS.CONFIRMED] },
-        endTime: { $lt: new Date() },
-        isDeleted: false
-      },
-      {
-        $set: { reservationStatus: RESERVATION_STATUS.COMPLETED }
-      }
-    );
+    // Disabled automatic transition so tables remain marked as occupied
+    // until the admin manually confirms the guest has left.
+    return;
   }
 }
 

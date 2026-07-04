@@ -96,12 +96,7 @@ const AdminDashboard = () => {
   // A table is occupied if it's AVAILABLE and there is a confirmed/pending reservation occurring right now
   const occupiedTableIds = new Set(
     reservations
-      .filter(
-        (r) =>
-          ['PENDING', 'CONFIRMED'].includes(r.reservationStatus) &&
-          new Date(r.startTime) <= now &&
-          new Date(r.endTime) >= now
-      )
+      .filter((r) => ['PENDING', 'CONFIRMED'].includes(r.reservationStatus))
       .map((r) => r.table?._id?.toString())
       .filter(Boolean)
   );

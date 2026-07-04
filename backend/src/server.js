@@ -17,11 +17,6 @@ const app = require('./app');
 connectDB().then(async () => {
   // Auto-seed tables in production if they don't exist
   try {
-    // Log safe DB connection details for diagnostics
-    const dbName = mongoose.connection.name;
-    const dbHost = mongoose.connection.host;
-    logger.info(`[DB DEBUG] Connected to Host: ${dbHost}, Database: ${dbName}`);
-
     // Auto-seed table structures in production if empty
     const Table = require('./models/Table');
     const tableCount = await Table.countDocuments();

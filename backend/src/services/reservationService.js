@@ -77,13 +77,25 @@ class ReservationService {
       throw new AppError('Maximum reservation duration is 4 hours', HTTP_STATUS.BAD_REQUEST);
     }
 
-    // Operating hours check (11:00 AM to 11:00 PM) in UTC to ensure consistency in production
-    const startHour = start.getUTCHours();
-    const endHour = end.getUTCHours();
+    // Operating hours check (11:00 AM to 11:00 PM) mapped to the restaurant's local timezone
+    const getLocalTime = (date) => {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).formatToParts(date);
+      let hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+      if (hour === 24) hour = 0; // Handle 24-hour midnight edge case
+      return { hour, minute: parseInt(parts.find(p => p.type === 'minute').value, 10) };
+    };
 
-    if (startHour < 11 || (endHour > 23 || (endHour === 23 && end.getUTCMinutes() > 0))) {
+    const startLocal = getLocalTime(start);
+    const endLocal = getLocalTime(end);
+
+    if (startLocal.hour < 11 || (endLocal.hour > 23 || (endLocal.hour === 23 && endLocal.minute > 0))) {
       logger.warn(`Validation Failure: Booking window ${start.toISOString()} - ${end.toISOString()} outside operating hours`);
-      throw new AppError('Reservations can only be booked during operating hours: 11:00 AM to 11:00 PM.', HTTP_STATUS.BAD_REQUEST);
+      throw new AppError('Reservations can only be booked during operating hours (11:00 AM - 11:00 PM).', HTTP_STATUS.BAD_REQUEST);
     }
 
     return true;

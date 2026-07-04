@@ -227,7 +227,7 @@ const AdminDashboard = () => {
       )}
 
       {/* Row 1: Restaurant Health & Heatmap Timeline */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 animate-slide-up delay-100">
         {/* Restaurant Health Summary */}
         <div className="rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift">
           <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2 pb-3 border-b border-burgundy/10 dark:border-gold/10">
@@ -275,7 +275,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Today's Schedule Reservation Density Timeline */}
-        <div className="lg:col-span-2 rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift">
+        <div className="lg:col-span-2 rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4 hover-lift hover-glow">
           <div className="flex justify-between items-center pb-3 border-b border-burgundy/10 dark:border-gold/10">
             <h3 className="text-base font-elegant font-bold text-burgundy dark:text-gold flex items-center gap-2">
               <Clock className="h-5 w-5 text-burgundy dark:text-gold" />
@@ -305,7 +305,8 @@ const AdminDashboard = () => {
                   return (
                     <div
                       key={hour}
-                      className={`rounded-lg py-3 text-center flex flex-col items-center justify-center min-h-[4rem] transition-all duration-200 hover:scale-105 shadow-sm ${bgClass}`}
+                      className={`rounded-lg py-3 text-center flex flex-col items-center justify-center min-h-[4rem] transition-all duration-200 hover:scale-105 shadow-sm ${bgClass} animate-scale-in`}
+                      style={{ animationDelay: `${idx * 50}ms` }}
                     >
                       <span className="text-xs font-bold leading-none">{count}</span>
                       <span className="text-[9px] uppercase tracking-wider opacity-60 mt-1.5 leading-none">
@@ -330,7 +331,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Row 2: Live Table Grid vs Operations Feed */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 animate-slide-up delay-200">
         {/* Real-time occupied table grid */}
         <div className="lg:col-span-2 rounded-2xl border border-burgundy/10 bg-white p-5 shadow-sm dark:border-gold/10 dark:bg-slate-900 space-y-4">
           <div className="flex justify-between items-center pb-3 border-b border-burgundy/10 dark:border-gold/10">
@@ -380,7 +381,7 @@ const AdminDashboard = () => {
                 return (
                   <div
                     key={t._id}
-                    className={`rounded-xl border p-4 flex flex-col justify-between min-h-[6.5rem] bg-white dark:bg-slate-900 text-left transition-all hover-lift ${borderClass} ${bgOverride}`}
+                    className={`rounded-xl border p-4 flex flex-col justify-between min-h-[6.5rem] bg-white dark:bg-slate-900 text-left transition-all hover-lift animate-scale-in ${borderClass} ${bgOverride}`}
                   >
                     <div className="flex justify-between items-start">
                       <div className="space-y-0.5">

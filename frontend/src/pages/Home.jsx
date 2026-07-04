@@ -137,8 +137,8 @@ const Home = () => {
       <div className="border-t border-burgundy/10 dark:border-gold/10">
         <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift hover-glow animate-slide-up delay-100">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold animate-float">
                 <Calendar className="h-5 w-5" />
               </div>
               <h4 className="text-base font-bold text-slate-900 dark:text-white">Seamless Booking</h4>
@@ -147,8 +147,8 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift hover-glow animate-slide-up delay-200">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold animate-float" style={{ animationDelay: '0.5s' }}>
                 <Compass className="h-5 w-5" />
               </div>
               <h4 className="text-base font-bold text-slate-900 dark:text-white">Operations Center</h4>
@@ -157,8 +157,8 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold">
+            <div className="space-y-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-burgundy/10 dark:border-gold/10 shadow-sm hover-lift hover-glow animate-slide-up delay-300">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-burgundy/10 text-burgundy dark:bg-gold/15 dark:text-gold animate-float" style={{ animationDelay: '1s' }}>
                 <Award className="h-5 w-5" />
               </div>
               <h4 className="text-base font-bold text-slate-900 dark:text-white">Host Priority Guards</h4>

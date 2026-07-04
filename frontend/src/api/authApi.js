@@ -11,6 +11,15 @@ const authApi = {
   },
 
   /**
+   * Verify 2FA OTP for login.
+   * @param {Object} data - email and otp
+   */
+  verifyOTP: async ({ email, otp }) => {
+    const response = await axiosClient.post('/auth/verify-otp', { email, otp });
+    return response.data;
+  },
+
+  /**
    * Register a new Customer.
    * @param {Object} userData - name, email, password, confirmPassword
    */

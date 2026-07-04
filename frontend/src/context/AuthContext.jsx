@@ -48,13 +48,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   /**
-   * Log in user
+   * Log in user (Step 1)
    */
   const login = async (credentials) => {
     try {
       setLoading(true);
       const response = await authApi.login(credentials);
+      
       if (response.success && response.data) {
+        if (response.data.requires2FA) {
+          // Return the 2FA requirement to the UI so it can switch forms
+          return { success: true, requires2FA: true, email: response.data.email, message: response.message };
+        }
+
         const { user: loggedUser, token: sessionToken } = response.data;
         
         localStorage.setItem('token', sessionToken);
@@ -69,6 +75,33 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       handleSessionClear();
       const message = error.response?.data?.message || 'Invalid email or password';
+      return { success: false, message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Verify OTP (Step 2)
+   */
+  const verifyOTP = async (data) => {
+    try {
+      setLoading(true);
+      const response = await authApi.verifyOTP(data);
+      if (response.success && response.data) {
+        const { user: loggedUser, token: sessionToken } = response.data;
+        
+        localStorage.setItem('token', sessionToken);
+        localStorage.setItem('user', JSON.stringify(loggedUser));
+        
+        setToken(sessionToken);
+        setUser(loggedUser);
+        setIsAuthenticated(true);
+        return { success: true, message: response.message || '2FA Verification successful' };
+      }
+      return { success: false, message: response.message || 'Verification failed' };
+    } catch (error) {
+      const message = error.response?.data?.message || 'Invalid or expired OTP';
       return { success: false, message };
     } finally {
       setLoading(false);
@@ -141,6 +174,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         loading,
         login,
+        verifyOTP,
         logout,
         register,
         checkAuth

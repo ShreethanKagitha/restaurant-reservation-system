@@ -33,6 +33,15 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
       required: true
+    },
+    // 2FA Fields
+    otp: {
+      type: String,
+      select: false // Keep OTP hidden from standard queries
+    },
+    otpExpires: {
+      type: Date,
+      select: false
     }
   },
   {

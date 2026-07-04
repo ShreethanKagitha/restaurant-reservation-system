@@ -30,7 +30,7 @@ class AuthService {
   }
 
   /**
-   * Authenticate a user by email and password.
+   * Authenticate a user by email and password. Step 1 of 2FA.
    * @param {Object} loginData - Login credentials (email, password)
    */
   async loginUser({ email, password }) {
@@ -47,7 +47,59 @@ class AuthService {
       throw new AppError('Invalid email or password', HTTP_STATUS.UNAUTHORIZED);
     }
 
-    // Return formatted response
+    // --- 2FA OTP Generation ---
+    // Generate a 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Set expiry to 10 minutes from now
+    const otpExpires = new Date(Date.now() + 10 * 60000);
+
+    // Save to user (using findByIdAndUpdate to avoid triggering pre-save hooks on password if not needed, though pre-save handles it)
+    await userRepository.model.findByIdAndUpdate(userObj._id, {
+      otp: otp,
+      otpExpires: otpExpires
+    });
+
+    // MOCK SMS/EMAIL SENDER: Log it to the console for testing
+    console.log(`\n=========================================`);
+    console.log(`🔐 2FA OTP for ${email}: ${otp}`);
+    console.log(`=========================================\n`);
+
+    // Return 2FA requirement instead of the token
+    return { 
+      requires2FA: true, 
+      email: userObj.email,
+      message: 'OTP sent to your registered contact method.' 
+    };
+  }
+
+  /**
+   * Verify the 2FA OTP. Step 2 of 2FA.
+   * @param {Object} data - email and otp
+   */
+  async verifyOTP({ email, otp }) {
+    // Find user by email and explicitly select otp fields
+    const userObj = await userRepository.model.findOne({ email }).select('+otp +otpExpires');
+    if (!userObj) {
+      throw new AppError('User not found', HTTP_STATUS.NOT_FOUND);
+    }
+
+    // Check if OTP exists and matches
+    if (!userObj.otp || userObj.otp !== otp) {
+      throw new AppError('Invalid OTP', HTTP_STATUS.UNAUTHORIZED);
+    }
+
+    // Check if OTP is expired
+    if (userObj.otpExpires < new Date()) {
+      throw new AppError('OTP has expired. Please log in again.', HTTP_STATUS.UNAUTHORIZED);
+    }
+
+    // Clear the OTP fields now that it has been successfully used
+    await userRepository.model.findByIdAndUpdate(userObj._id, {
+      $unset: { otp: 1, otpExpires: 1 }
+    });
+
+    // Return the final formatted auth response with JWT token
     return this.formatAuthResponse(userObj);
   }
 

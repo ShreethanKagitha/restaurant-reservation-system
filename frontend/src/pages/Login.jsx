@@ -50,17 +50,17 @@ const Login = () => {
   };
 
   return (
-    <div className="space-y-6 text-left">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+    <div className="w-full flex flex-col justify-center animate-scale-in">
+      <div className="space-y-3 animate-slide-up delay-100">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight font-elegant text-burgundy dark:text-gold">
           Welcome Back
         </h2>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-          Sign in to your account to manage reservations.
+        <p className="text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+          Sign in to your account to securely manage your priority reservations.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5 animate-slide-up delay-200">
         <Input
           label="Email Address"
           type="email"
@@ -86,44 +86,46 @@ const Login = () => {
           })}
         />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pt-1">
           <div className="flex items-center">
             <input
               id="rememberMe"
               name="rememberMe"
               type="checkbox"
-              className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+              className="h-4 w-4 rounded border-slate-300 text-burgundy focus:ring-burgundy cursor-pointer"
               {...register('rememberMe')}
             />
-            <label htmlFor="rememberMe" className="ml-2 block text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+            <label htmlFor="rememberMe" className="ml-2 block text-xs text-slate-600 dark:text-slate-400 cursor-pointer">
               Remember Me
             </label>
           </div>
 
-          <div className="text-sm">
+          <div className="text-xs">
             <Link
               to="/forgot-password"
-              className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+              className="font-bold text-burgundy hover:text-[#601420] dark:text-gold dark:hover:text-[#F3E5AB] transition-colors hover:underline"
             >
               Forgot Password?
             </Link>
           </div>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          isLoading={isSubmitting}
-        >
-          Sign In
-        </Button>
+        <div className="pt-4">
+          <Button
+            type="submit"
+            className="w-full h-12 bg-burgundy hover:bg-[#601420] text-white shadow-[0_4px_20px_rgb(122,30,44,0.2)] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgb(122,30,44,0.3)] active:translate-y-0"
+            isLoading={isSubmitting}
+          >
+            Sign In
+          </Button>
+        </div>
       </form>
 
-      <p className="mt-4 text-center text-sm text-slate-600 dark:text-slate-400">
+      <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-400 animate-slide-up delay-300">
         Don't have an account?{' '}
         <Link
           to="/register"
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          className="font-bold text-burgundy hover:text-[#601420] dark:text-gold dark:hover:text-[#F3E5AB] transition-colors hover:underline"
         >
           Register here
         </Link>

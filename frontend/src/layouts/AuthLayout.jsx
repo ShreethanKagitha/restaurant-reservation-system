@@ -37,14 +37,14 @@ const AuthLayout = () => {
       </div>
 
       {/* Form Right Section - Mobile / Desktop */}
-      <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-        <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div className="mb-6 flex justify-center lg:hidden">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl premium-gradient text-white shadow-md">
-              <Utensils className="h-7 w-7" />
+      <div className="flex flex-1 flex-col justify-center px-6 py-12 sm:px-8 lg:flex-none lg:px-24 xl:px-32">
+        <div className="mx-auto w-full max-w-md lg:w-[460px]">
+          <div className="mb-8 flex justify-center lg:hidden animate-scale-in">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl premium-gradient text-white shadow-xl shadow-burgundy/20">
+              <Utensils className="h-8 w-8" />
             </div>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:border-transparent sm:bg-transparent sm:p-0 sm:shadow-none">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-10 shadow-xl shadow-slate-200/50 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none sm:border-transparent sm:bg-transparent sm:p-0 sm:shadow-none">
             <Outlet />
           </div>
         </div>

@@ -12,6 +12,9 @@ const { sendError } = require('./utils/apiResponse');
 
 const app = express();
 
+// Enable trust proxy to correctly read X-Forwarded-For headers from Render's load balancer
+app.set('trust proxy', 1);
+
 // 1) Global Security Middlewares
 app.use(helmet()); // Secure HTTP headers
 

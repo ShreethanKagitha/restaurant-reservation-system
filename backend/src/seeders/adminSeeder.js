@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const env = require('../config/environment');
 const User = require('../models/User');
+const userRepository = require('../repositories/userRepository');
 const { ROLES } = require('../config/constants');
 const logger = require('../utils/logger');
 
@@ -21,8 +22,8 @@ const seedAdmin = async () => {
       logger.info(`Admin user with email ${adminEmail} already exists. Skipping creation.`);
       logger.info(`Credentials -> Email: ${adminEmail} | Role: ${existingAdmin.role}`);
     } else {
-      // Create admin user
-      const newAdmin = new User({
+      // Create admin user using the exact same logic as normal user registration
+      await userRepository.create({
         fullName: 'System Administrator',
         email: adminEmail,
         password: 'Admin@123',
@@ -30,7 +31,6 @@ const seedAdmin = async () => {
         isActive: true
       });
 
-      await newAdmin.save();
       logger.info(`Successfully created admin user: ${adminEmail}`);
       logger.info(`Credentials -> Email: ${adminEmail} | Password: Admin@123 | Role: ADMIN`);
     }

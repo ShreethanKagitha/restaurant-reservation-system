@@ -32,43 +32,48 @@ const Home = () => {
     <div className="bg-[#FFF8F0] dark:bg-[#121212] transition-colors duration-300">
       {/* 1) Premium Hero Section with Ambiance Background */}
       <div
-        className="relative h-[90vh] flex items-center justify-center bg-cover bg-center overflow-hidden"
+        className="relative h-[95vh] flex items-center justify-center bg-cover bg-center overflow-hidden"
         style={{ backgroundImage: `url('/restaurant_ambience.png')` }}
       >
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/55 backdrop-blur-[1px]" />
+        {/* Professional gradient overlay: darker at top for nav, clear in middle, solid dark at bottom to blend seamlessly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-[#FFF8F0] dark:to-[#121212] pointer-events-none" />
 
-        <div className="relative z-10 max-w-4xl px-6 text-center space-y-6 animate-in fade-in duration-700">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-gold bg-gold/10 border border-gold/20">
-            <Star className="h-3 w-3 fill-gold" /> Michelin-Guide Standard Selection
-          </span>
+        <div className="relative z-10 max-w-4xl px-6 text-center space-y-8 animate-slide-up delay-100">
+          {/* Sleek Glassmorphism Badge */}
+          <div className="flex justify-center animate-scale-in delay-200">
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-gold bg-black/40 backdrop-blur-md border border-gold/30 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+              <Star className="h-3 w-3 fill-gold animate-pulse" /> Michelin-Guide Standard Selection
+            </span>
+          </div>
           
-          <h1 className="text-4xl sm:text-6xl font-elegant font-bold text-white tracking-tight leading-tight">
-            Reserve Your Perfect <br />
-            <span className="text-gold">Dining Experience</span>
-          </h1>
+          <div className="space-y-4">
+            <h1 className="text-5xl sm:text-7xl font-elegant font-bold text-white tracking-tight leading-[1.1] drop-shadow-xl">
+              Reserve Your Perfect <br />
+              <span className="text-gold italic font-medium drop-shadow-2xl">Dining Experience</span>
+            </h1>
 
-          <p className="max-w-xl mx-auto text-base sm:text-lg text-slate-200 leading-relaxed font-sans">
-            Book your table effortlessly and enjoy unforgettable moments in handpicked restaurants.
-          </p>
+            <p className="max-w-2xl mx-auto text-sm sm:text-lg text-slate-200 leading-relaxed font-light tracking-wide drop-shadow-md">
+              Book your table effortlessly and enjoy unforgettable moments in our handpicked, world-class culinary establishments.
+            </p>
+          </div>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-5">
             {isAuthenticated ? (
               <Link to="/dashboard" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto px-8 bg-burgundy hover:bg-[#601420]">
+                <Button size="lg" className="w-full sm:w-auto px-10 h-14 bg-burgundy hover:bg-[#601420] text-white shadow-[0_8px_30px_rgb(122,30,44,0.3)] transition-all hover:-translate-y-1 text-sm tracking-wider uppercase font-bold rounded-xl">
                   Management Console
                 </Button>
               </Link>
             ) : (
               <>
                 <Link to="/register" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto px-8 bg-burgundy hover:bg-[#601420]">
+                  <Button size="lg" className="w-full sm:w-auto px-10 h-14 bg-burgundy hover:bg-[#601420] text-white shadow-[0_8px_30px_rgb(122,30,44,0.3)] transition-all hover:-translate-y-1 text-sm tracking-wider uppercase font-bold rounded-xl">
                     Reserve Now
                   </Button>
                 </Link>
                 <button
                   onClick={scrollToExplore}
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 active:scale-95 transition-all text-sm cursor-pointer"
+                  className="w-full sm:w-auto px-10 h-14 rounded-xl border border-white/20 bg-white/5 backdrop-blur-md text-white font-semibold hover:bg-white/10 hover:border-white/40 transition-all hover:-translate-y-1 text-sm tracking-wider uppercase cursor-pointer"
                 >
                   Explore Highlights
                 </button>
@@ -80,52 +85,57 @@ const Home = () => {
         {/* Scroll Indicator */}
         <button
           onClick={scrollToExplore}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors cursor-pointer animate-bounce flex flex-col items-center gap-1.5"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white transition-colors cursor-pointer animate-bounce flex flex-col items-center gap-2"
         >
-          <span className="text-xs tracking-wider uppercase opacity-80">Scroll to Explore</span>
-          <ChevronDown className="h-5 w-5" />
+          <span className="text-[10px] tracking-[0.2em] uppercase font-semibold">Scroll to Explore</span>
+          <ChevronDown className="h-4 w-4" />
         </button>
       </div>
 
       {/* 2) Explore Curated Highlights Section */}
       <div
         ref={exploreSectionRef}
-        className="mx-auto max-w-7xl px-6 py-20 sm:py-24 text-left space-y-12"
+        className="mx-auto max-w-7xl px-6 py-24 sm:py-32 text-left space-y-16"
       >
-        <div className="max-w-2xl space-y-3">
-          <h2 className="text-3xl font-bold font-elegant text-burgundy dark:text-gold sm:text-4xl">
+        <div className="max-w-2xl space-y-4 animate-slide-up delay-200">
+          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-burgundy dark:text-gold/80">
+            Exclusive Seating
+          </span>
+          <h2 className="text-4xl font-bold font-elegant text-slate-900 dark:text-white sm:text-5xl leading-tight">
             Curated Culinary Galleries
           </h2>
-          <p className="text-slate-600 dark:text-slate-400">
-            Handpicked sensory spaces designed to elevate every culinary milestone.
+          <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg font-light leading-relaxed">
+            Handpicked sensory spaces designed to elevate every culinary milestone into an unforgettable memory.
           </p>
         </div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 animate-slide-up delay-300">
           {curatedCategories.map((cat, idx) => (
             <div
               key={idx}
-              className="group overflow-hidden rounded-2xl border border-burgundy/10 dark:border-gold/10 bg-white dark:bg-slate-900 shadow-sm hover-lift flex flex-col md:flex-row h-full"
+              className="group overflow-hidden rounded-3xl border border-burgundy/10 dark:border-gold/10 bg-white dark:bg-slate-900 shadow-md hover-lift hover-glow flex flex-col md:flex-row h-full"
             >
-              <div
-                className="w-full md:w-1/2 h-48 md:h-auto bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                style={{ backgroundImage: `url('${cat.image}')` }}
-              />
-              <div className="w-full md:w-1/2 p-6 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2 py-0.5 rounded">
+              <div className="w-full md:w-5/12 overflow-hidden relative">
+                <div
+                  className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-[800ms] ease-out"
+                  style={{ backgroundImage: `url('${cat.image}')` }}
+                />
+              </div>
+              <div className="w-full md:w-7/12 p-8 flex flex-col justify-between space-y-6">
+                <div className="space-y-3">
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold bg-gold/5 px-2.5 py-1 rounded-full border border-gold/20">
                     {cat.tag}
                   </span>
-                  <h3 className="text-xl font-bold font-elegant text-charcoal dark:text-white">
+                  <h3 className="text-2xl font-bold font-elegant text-slate-900 dark:text-white group-hover:text-burgundy dark:group-hover:text-gold transition-colors">
                     {cat.title}
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                     {cat.description}
                   </p>
                 </div>
-                <Link to="/register" className="text-xs font-bold text-burgundy dark:text-gold flex items-center gap-1 hover:underline">
-                  Secure Priority Seating →
+                <Link to="/register" className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-burgundy dark:text-gold group-hover:underline">
+                  Secure Priority Seating <ChevronDown className="h-4 w-4 -rotate-90" />
                 </Link>
               </div>
             </div>

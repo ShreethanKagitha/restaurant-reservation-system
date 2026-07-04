@@ -77,12 +77,12 @@ class ReservationService {
       throw new AppError('Maximum reservation duration is 4 hours', HTTP_STATUS.BAD_REQUEST);
     }
 
-    // Operating hours check (11:00 AM to 11:00 PM)
-    const startHour = start.getHours();
-    const endHour = end.getHours();
+    // Operating hours check (11:00 AM to 11:00 PM) in UTC to ensure consistency in production
+    const startHour = start.getUTCHours();
+    const endHour = end.getUTCHours();
 
-    if (startHour < 11 || (endHour > 23 || (endHour === 23 && end.getMinutes() > 0))) {
-      logger.warn(`Validation Failure: Booking window ${start.toLocaleTimeString()} - ${end.toLocaleTimeString()} outside operating hours`);
+    if (startHour < 11 || (endHour > 23 || (endHour === 23 && end.getUTCMinutes() > 0))) {
+      logger.warn(`Validation Failure: Booking window ${start.toISOString()} - ${end.toISOString()} outside operating hours`);
       throw new AppError('Reservations can only be booked during operating hours: 11:00 AM to 11:00 PM.', HTTP_STATUS.BAD_REQUEST);
     }
 
@@ -119,21 +119,28 @@ class ReservationService {
     this.validateGuestCount(guestCount);
 
     const availableTables = await this.getAvailableTables(startTime, endTime, session);
+    
+    logger.info(`Found ${availableTables.length} available tables before capacity filter for guests: ${guestCount}`);
+    
+    availableTables.forEach(t => {
+       logger.info(`Candidate Table: ${t.tableNumber}, Capacity: ${t.capacity}, Status: ${t.status}`);
+    });
 
     // Filter tables that fit the guest size, sort by capacity and number
-    return availableTables
+    const suitable = availableTables
       .filter((table) => table.capacity >= guestCount)
       .sort((a, b) => {
-        // First sort parameter: Capacity ascending
         if (a.capacity !== b.capacity) {
           return a.capacity - b.capacity;
         }
-        // Second sort parameter (tiebreaker): Table number alphanumeric sorting
         return a.tableNumber.localeCompare(b.tableNumber, undefined, {
           numeric: true,
           sensitivity: 'base'
         });
       });
+      
+    logger.info(`Found ${suitable.length} suitable tables after capacity filter`);
+    return suitable;
   }
 
   /**

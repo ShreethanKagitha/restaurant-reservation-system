@@ -13,18 +13,45 @@ const connectDB = require('./config/db');
 const app = require('./app');
 
 // Initialize MongoDB Connection
-connectDB();
+connectDB().then(async () => {
+  // Auto-seed tables in production if they don't exist
+  try {
+    const Table = require('./models/Table');
+    const tableCount = await Table.countDocuments();
+    if (tableCount === 0) {
+      logger.info('No tables found in database. Auto-seeding production tables...');
+      const tablesData = [
+        { tableNumber: 'T1', capacity: 2 },
+        { tableNumber: 'T2', capacity: 2 },
+        { tableNumber: 'T3', capacity: 2 },
+        { tableNumber: 'T4', capacity: 2 },
+        { tableNumber: 'T5', capacity: 4 },
+        { tableNumber: 'T6', capacity: 4 },
+        { tableNumber: 'T7', capacity: 4 },
+        { tableNumber: 'T8', capacity: 6 },
+        { tableNumber: 'T9', capacity: 6 },
+        { tableNumber: 'T10', capacity: 8 }
+      ];
+      await Table.insertMany(tablesData);
+      logger.info(`Successfully auto-seeded ${tablesData.length} tables.`);
+    }
+  } catch (seedErr) {
+    logger.error('Failed to auto-seed tables:', seedErr);
+  }
 
-// Start Server
-const server = app.listen(env.port, () => {
-  logger.info(`Server is running in ${env.nodeEnv} mode on port ${env.port}`);
+  // Start Server
+  const server = app.listen(env.port, () => {
+    logger.info(`Server is running in ${env.nodeEnv} mode on port ${env.port}`);
+  });
+
+  // Catch Unhandled Promise Rejections inside the server scope
+  process.on('unhandledRejection', (err) => {
+    logger.error('UNHANDLED REJECTION! 💥 Shutting down gracefully...');
+    logger.error(err.message, err);
+    server.close(() => {
+      process.exit(1);
+    });
+  });
 });
 
-// Catch Unhandled Promise Rejections
-process.on('unhandledRejection', (err) => {
-  logger.error('UNHANDLED REJECTION! 💥 Shutting down gracefully...');
-  logger.error(err.message, err);
-  server.close(() => {
-    process.exit(1);
-  });
 });

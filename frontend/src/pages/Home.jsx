@@ -92,56 +92,7 @@ const Home = () => {
         </button>
       </div>
 
-      {/* 2) Explore Curated Highlights Section */}
-      <div
-        ref={exploreSectionRef}
-        className="mx-auto max-w-7xl px-6 py-24 sm:py-32 text-left space-y-16"
-      >
-        <div className="max-w-2xl space-y-4 animate-slide-up delay-200">
-          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-burgundy dark:text-gold/80">
-            Exclusive Seating
-          </span>
-          <h2 className="text-4xl font-bold font-elegant text-slate-900 dark:text-white sm:text-5xl leading-tight">
-            Curated Culinary Galleries
-          </h2>
-          <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg font-light leading-relaxed">
-            Handpicked sensory spaces designed to elevate every culinary milestone into an unforgettable memory.
-          </p>
-        </div>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 animate-slide-up delay-300">
-          {curatedCategories.map((cat, idx) => (
-            <div
-              key={idx}
-              className="group overflow-hidden rounded-3xl border border-burgundy/10 dark:border-gold/10 bg-white dark:bg-slate-900 shadow-md hover-lift hover-glow flex flex-col md:flex-row h-full"
-            >
-              <div className="w-full md:w-5/12 overflow-hidden relative">
-                <div
-                  className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-[800ms] ease-out"
-                  style={{ backgroundImage: `url('${cat.image}')` }}
-                />
-              </div>
-              <div className="w-full md:w-7/12 p-8 flex flex-col justify-between space-y-6">
-                <div className="space-y-3">
-                  <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold bg-gold/5 px-2.5 py-1 rounded-full border border-gold/20">
-                    {cat.tag}
-                  </span>
-                  <h3 className="text-2xl font-bold font-elegant text-slate-900 dark:text-white group-hover:text-burgundy dark:group-hover:text-gold transition-colors">
-                    {cat.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {cat.description}
-                  </p>
-                </div>
-                <Link to="/register" className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-burgundy dark:text-gold group-hover:underline">
-                  Secure Priority Seating <ChevronDown className="h-4 w-4 -rotate-90" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* 3) Features highlights */}
       <div className="border-t border-burgundy/10 dark:border-gold/10">

@@ -34,21 +34,44 @@ class AuthService {
    * @param {Object} loginData - Login credentials (email, password)
    */
   async loginUser({ email, password }) {
+    console.log(`[AUTH DEBUG] 1. Incoming email for login: "${email}"`);
+    
     // Find user and explicitly select password field
     const userObj = await userRepository.findByEmailWithPassword(email);
+    console.log(`[AUTH DEBUG] 2. User document found: ${!!userObj}`);
+    
     if (!userObj) {
       // Use generic failure message for security
       throw new AppError('Invalid email or password', HTTP_STATUS.UNAUTHORIZED);
     }
+    
+    console.log(`[AUTH DEBUG] 3. User _id: ${userObj._id}`);
+    console.log(`[AUTH DEBUG] 4. User role: ${userObj.role}`);
+    console.log(`[AUTH DEBUG] 5. Password field exists on document: ${!!userObj.password}`);
+    
+    if (userObj.password) {
+      console.log(`[AUTH DEBUG] 6. Length of password hash: ${userObj.password.length}`);
+    } else {
+      console.log(`[AUTH DEBUG] 6. Length of password hash: N/A (Missing)`);
+    }
 
     // Verify password
     const isPasswordCorrect = await userObj.comparePassword(password, userObj.password);
+    console.log(`[AUTH DEBUG] 7. Result of bcrypt.compare(): ${isPasswordCorrect}`);
+    
     if (!isPasswordCorrect) {
       throw new AppError('Invalid email or password', HTTP_STATUS.UNAUTHORIZED);
     }
 
     // Return formatted response
-    return this.formatAuthResponse(userObj);
+    try {
+      const authData = this.formatAuthResponse(userObj);
+      console.log(`[AUTH DEBUG] 8. JWT generation success: ${!!authData.token}`);
+      return authData;
+    } catch (err) {
+      console.log(`[AUTH DEBUG] 8. JWT generation failed: ${err.message}`);
+      throw err;
+    }
   }
 
   /**

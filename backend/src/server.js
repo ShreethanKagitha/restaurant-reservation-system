@@ -10,12 +10,19 @@ process.on('uncaughtException', (err) => {
 // Import env config first to trigger validation and load variables
 const env = require('./config/environment');
 const connectDB = require('./config/db');
+const mongoose = require('mongoose');
 const app = require('./app');
 
 // Initialize MongoDB Connection
 connectDB().then(async () => {
   // Auto-seed tables in production if they don't exist
   try {
+    // Log safe DB connection details for diagnostics
+    const dbName = mongoose.connection.name;
+    const dbHost = mongoose.connection.host;
+    logger.info(`[DB DEBUG] Connected to Host: ${dbHost}, Database: ${dbName}`);
+
+    // Auto-seed table structures in production if empty
     const Table = require('./models/Table');
     const tableCount = await Table.countDocuments();
     if (tableCount === 0) {
@@ -77,6 +84,4 @@ connectDB().then(async () => {
       process.exit(1);
     });
   });
-});
-
 });
